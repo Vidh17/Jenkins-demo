@@ -55,16 +55,13 @@ pipeline {
         stage('Deploy to Django EC2') {
             steps {
                 sh '''
-                # Create app directory on EC2
                 ssh -o StrictHostKeyChecking=no ${DJANGO_EC2} "mkdir -p ${APP_DIR}"
 
-                # Copy Django project + django.sh
                 scp -o StrictHostKeyChecking=no -r \
-                    Docker/app1 Docker/app4 Docker/myweb Docker/templates \
-                    Docker/manage.py Docker/requirements.txt Docker/django.sh \
-                    ${DJANGO_EC2}:${APP_DIR}
+                Docker/app1 Docker/app4 Docker/myweb \
+                Docker/manage.py Docker/requirements.txt Docker/django.sh \
+                ${DJANGO_EC2}:${APP_DIR}
 
-                # Setup venv and restart Django using script
                 ssh -o StrictHostKeyChecking=no ${DJANGO_EC2} "
                     cd ${APP_DIR} &&
                     rm -rf ${VENV_DIR} &&
