@@ -1,2 +1,2 @@
 # jenkins_pipeline
-29/12/2025
+FLASK + Django application CI/CD pipeline
