@@ -1,0 +1,12 @@
+<html>
+    <body>
+        <h1>PUBLISHER REGISTRATION </h1>
+        <form method="POST" action="pubprocess">
+            {% csrf_token %}
+        <p>PUBLISHER Name:<INPUT type="text"name="pubname"/></p>
+        <p>City:<INPUT type="text"name="pubcity"/></p>
+        <p>Email:<INPUT type="text"name="pubemail"/></p>
+        <input type="submit"value="REGISTER"/>
+        </form>
+    </body>
+</html>

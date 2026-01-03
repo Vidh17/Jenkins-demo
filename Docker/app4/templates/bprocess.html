@@ -1,0 +1,29 @@
+<html>
+    <body>
+            <center><table bgcolor ="lightblueviolet">
+                <tr<td colspan="2"><h2>BOOK DETAILS</h2></td></td>
+                <tr><td>Book Name </td><td> {{title}}</td></tr>
+                <tr><td>Author </td><td> {{name}}</td></tr>
+                <tr><td>Genre</td></tr>{% if count == 0 %}
+                <td> <h3> you Have not selected Any Genres!!</h3></td>
+                {% else %}
+                <td>
+                     {% for i in genre_id %}
+                     <u1><l1>{{i}}</l1>
+                         {% endfor %}
+                      </td>       
+                {% endif %}
+
+                <tr><td>Pages </td><td>{{pages}}</td></tr>
+                <tr><td>Price</td><td> {{price}}</td></tr>
+                <tr><td>Publisher </td><td> {{pubname}}</td></tr>
+
+                
+                <tr><td colspan="2"<center><a href="home">HOMEPAGE</a></center></td></tr>
+            </table>
+            </center>
+
+    </body>
+
+</html>     
+

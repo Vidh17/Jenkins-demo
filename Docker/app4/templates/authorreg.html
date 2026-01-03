@@ -1,0 +1,15 @@
+<html>
+    <body> 
+        <center>
+        <h1>AUTHOR REGISTRATION </h1>
+        <form method="POST" action="aprocess">
+            {% csrf_token %}
+        <p><tr><td>Name: <INPUT type="text"name="name"/></td></tr></p>
+        <p><tr><td>City: <INPUT type="text"name="city"/></td></tr></p>
+        <p><tr><td>Email: <INPUT type="text"name="email"/></td></tr></p>
+        <p><tr><td>Mobile: <input type="text"name="mobile"/></td></tr></p>
+        <p><tr><td><input type="submit"value="REGISTER"/></td></tr></p>
+        </form>
+        </center>
+    </body>
+</html>

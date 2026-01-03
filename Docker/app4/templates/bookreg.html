@@ -1,0 +1,28 @@
+<html>
+    <body>
+        <h1>BOOK REGISTRATION </h1>
+        <form method="POST" action="{% url 'bookadd' %}">            
+            {% csrf_token %}
+        <p>Book Name:<INPUT type="text"name="title"/></p>
+        <p>Author:<select name="author">
+              {% for au in author %}
+             <option value={{ au.author_id }}>{{ au.name }}</option>
+                {% endfor %}
+            </select> </p>
+        <p>Pages:<INPUT type="text"name="pages"/></p>
+        <p>Price:<input type="text"name="price"/></p>
+        <p>Genre:
+            {% for ge in genres %}
+            <input type="checkbox" value="{{ ge.genre_id }}" name="genre">{{ ge.genrename }}
+            {% endfor %}
+        <p>Publisher:<select name="publisher">
+            {% for pu in public %}
+             <option value={{ pu.pub_id }}>{{ pu.pubname }}</option>
+                {% endfor %}
+              </select> </p>
+        </p>
+        <input type="submit"value="REGISTER"/>
+        </form>
+    </body>
+</html>
+

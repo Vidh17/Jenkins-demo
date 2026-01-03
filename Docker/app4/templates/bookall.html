@@ -1,0 +1,20 @@
+<html>
+    <body>
+        <table>
+            <tr><td> Author_id</td><td>Author Name</td><td>City</td><td>Email</td><td>Mobile</td></tr>
+         {% for au in author %}
+            <tr>
+                <td>{{ au.author_id }}</td>
+                <td>{{ au.name }}</td>
+                <td>{{ au.city }}</td>
+                <td>{{ au.email }}</td>
+                <td>{{ au.mobile }}</td>
+            </tr>
+            
+            {% endfor %}
+                
+           <tr><td><a href="home"> HOMEPAGE </a></td></tr>
+            
+        </table>
+    </body>
+</html>

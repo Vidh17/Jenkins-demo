@@ -1,0 +1,41 @@
+
+<html>
+    <body>
+        <table>
+<tr><td> Book Name </td><td>Author </td><td>Genre</td><td>Pages</td><td> Price</td><td>Publisher</td></tr>
+         {% for bk in book %}
+            <tr>
+                
+                <td>{{ bk.title }}</td>
+                <td>{{ bk.author_id }}</td>
+                <td>{% if count > 1 %}
+                    <td>
+                    {% for i in bk.genre_ids %}
+                     <l1>{{ i }}</l1>
+                     {% endfor %}
+                    </td>
+                    {% endif %}
+                    </td>
+                <!-- <td>{{ bk.genre_ids }}</td> -->
+                <td>{{ bk.pages }}</td>
+                <td>{{ bk.price }}</td>
+                <td>{{ bk.publish }}</td>
+
+            </tr>
+            {% endfor %}
+            <tr><td><a href="home"> HOMEPAGE </a></td></tr>
+            
+        </table>
+    </body>
+</html>
+
+
+<!-- <tr><td>Genre</td></tr>{% if count == 0 %}
+                <td> <h3> you Have not selected Any Genres!!</h3></td>
+                {% else %}
+                <td>
+                     {% for i in genre_id %}
+                     <u1><l1>{{i}}</l1>
+                         {% endfor %}
+                      </td>       
+                {% endif %} -->

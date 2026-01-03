@@ -1,0 +1,13 @@
+<html>
+    <body>
+        <h1>BOOK RESISTRATION </h1>
+        <form method="POST" action="cdisplay">
+            {% csrf_token %}
+        <p>Book Name:<INPUT type="text"name="bname"/></p>
+        <p>Author:<INPUT type="text"name="author"/></p>
+        <p>Pages:<INPUT type="text"name="pages"/></p>
+        <p></p>Price:<input type="text"name="prices"/></p>
+        <input type="submit"value="RESISTRATER"/>
+        </form>
+    </body>
+</html>
