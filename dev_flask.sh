@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_DIR="/home/ubuntu/flaskapp"
+APP_DIR="/home/ubuntu/flask-app"
 PID_FILE="$APP_DIR/flask.pid"
 LOG_FILE="$APP_DIR/flask.log"
 
