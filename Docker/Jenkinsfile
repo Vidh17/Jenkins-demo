@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+
+    environment {
+        APP_DIR = "/home/ubuntu/django-app"
+        DJANGO_EC2 = "13.215.201.183"
+    }
+
+    stages {
+
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Vidh17/Jenkins-demo.git'
+            }
+        }
+
+        stage('Install Dependencies (Jenkins Build)') {
+            steps {
+                sh '''
+                python3 -m venv venv
+                . venv/bin/activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                '''
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh '''
+                . venv/bin/activate
+                python manage.py test
+                '''
+            }
+        }
+
+        stage('Deploy to EC2') {
+            steps {
+                sh '''
+                ssh ${DJANGO_EC2} "mkdir -p ${APP_DIR}"
+
+                # Copy all project files except .git folder
+                rsync -av --exclude='.git' ./ ${DJANGO_EC2}:${APP_DIR}
+
+                # Run deploy script on EC2
+                ssh ${DJANGO_EC2} "
+                    cd ${APP_DIR} &&
+                    rm -rf venv &&
+                    python3 -m venv venv &&
+                    . venv/bin/activate &&
+                    pip install --upgrade pip &&
+                    pip install -r requirements.txt &&
+                    python manage.py migrate &&
+                    python manage.py collectstatic --noinput &&
+                    chmod +x deploy_django.sh &&
+                    ./deploy_django.sh
+                "
+                '''
+            }
+        }
+    }
+}
