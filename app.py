@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home(): 
-	return "Hello, Flask last update my data "
+	return "Hello, Flask updated by Jenkins"
 
 @app.route("/about") 
 def about(): 

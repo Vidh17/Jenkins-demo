@@ -5,7 +5,7 @@ pipeline {
         APP_DIR     = "/home/ubuntu/flask-app"
         VENV_DIR    = "venv"
         FLASK_PORT  = "5000"
-        FLASK_EC2   = "ubuntu@13.232.73.222"   // Target EC2 (Flask server)
+        FLASK_EC2   = "ubuntu@13.215.201.183"   // Target EC2 (Flask server)
     }
 
     stages {
@@ -13,7 +13,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/jsvelu/flask-app.git'
+                    url: 'https://github.com/Vidh17/Jenkins-demo.git'
             }
         }
 
@@ -64,3 +64,4 @@ pipeline {
         }
     }
 }
+
