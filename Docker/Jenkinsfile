@@ -2,8 +2,10 @@ pipeline {
     agent any
 
     environment {
-        APP_DIR = "/home/ubuntu/django-app"
-        DJANGO_EC2 = "13.215.201.183"
+        APP_DIR     = "/home/ubuntu/django-app"
+        VENV_DIR    = "venv"
+        DJANGO_PORT = "8000"
+        DJANGO_EC2  = "ubuntu@13.215.201.183"
     }
 
     stages {
@@ -15,46 +17,63 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies (Jenkins Build)') {
+        stage('Install Dependencies (Jenkins)') {
             steps {
-                sh '''
-                python3 -m venv venv
-                . venv/bin/activate
-                pip install --upgrade pip
-                pip install -r requirements.txt
-                '''
+                dir('Docker') {
+                    sh '''
+                    python3 -m venv ${VENV_DIR}
+                    . ${VENV_DIR}/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                    '''
+                }
             }
         }
 
-        stage('Run Tests') {
+        stage('Django Checks') {
             steps {
-                sh '''
-                . venv/bin/activate
-                python manage.py test
-                '''
+                dir('Docker') {
+                    sh '''
+                    . ${VENV_DIR}/bin/activate
+                    python manage.py check
+                    '''
+                }
             }
         }
 
-        stage('Deploy to EC2') {
+        stage('Run Migrations (Jenkins Test)') {
+            steps {
+                dir('Docker') {
+                    sh '''
+                    . ${VENV_DIR}/bin/activate
+                    python manage.py migrate --noinput
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy to Django EC2') {
             steps {
                 sh '''
-                ssh ${DJANGO_EC2} "mkdir -p ${APP_DIR}"
+                # Create app directory on EC2
+                ssh -o StrictHostKeyChecking=no ${DJANGO_EC2} "mkdir -p ${APP_DIR}"
 
-                # Copy all project files except .git folder
-                rsync -av --exclude='.git' ./ ${DJANGO_EC2}:${APP_DIR}
+                # Copy Django project + django.sh
+                scp -o StrictHostKeyChecking=no -r \
+                    Docker/app1 Docker/app4 Docker/myweb Docker/templates \
+                    Docker/manage.py Docker/requirements.txt Docker/django.sh \
+                    ${DJANGO_EC2}:${APP_DIR}
 
-                # Run deploy script on EC2
-                ssh ${DJANGO_EC2} "
+                # Setup venv and restart Django using script
+                ssh -o StrictHostKeyChecking=no ${DJANGO_EC2} "
                     cd ${APP_DIR} &&
-                    rm -rf venv &&
-                    python3 -m venv venv &&
-                    . venv/bin/activate &&
+                    rm -rf ${VENV_DIR} &&
+                    python3 -m venv ${VENV_DIR} &&
+                    . ${VENV_DIR}/bin/activate &&
                     pip install --upgrade pip &&
                     pip install -r requirements.txt &&
-                    python manage.py migrate &&
-                    python manage.py collectstatic --noinput &&
-                    chmod +x deploy_django.sh &&
-                    ./deploy_django.sh
+                    chmod +x django.sh &&
+                    ./django.sh
                 "
                 '''
             }
