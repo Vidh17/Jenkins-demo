@@ -5,7 +5,7 @@ pipeline {
         APP_DIR     = "/home/ubuntu/django-app"
         VENV_DIR    = "venv"
         DJANGO_PORT = "8000"
-        DJANGO_EC2  = "ubuntu@13.215.201.183"
+        DJANGO_EC2  = "ubuntu@172.31.28.47"
     }
 
     stages {
