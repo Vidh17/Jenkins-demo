@@ -1,1 +1,1 @@
-# Thilak_myweb_app
+# Django Web app CI/CD
